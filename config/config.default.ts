@@ -15,6 +15,12 @@ export default (appInfo: EggAppInfo) => {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
   };
 
+  // mongodb
+  config.mongoose = {
+    url: 'mongodb://127.0.0.1:27017',
+    options: {},
+  };
+
   // the return config will combines to EggAppConfig
   return {
     ...config,
