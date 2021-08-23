@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import baseModel from './base_model';
 
 /** 环境配置项表 */
@@ -30,4 +30,8 @@ ConfigSchema.pre('save', function (next) {
   next();
 });
 
-export default model('Conf', ConfigSchema);
+export default (app) => {
+  const mongoose = app.mongoose;
+
+  return mongoose.model('Conf', ConfigSchema);
+};

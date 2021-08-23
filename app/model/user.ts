@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 import baseModel from './base_model';
 
 export interface User {
@@ -32,4 +32,8 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
-export default model('User', UserSchema);
+export default (app) => {
+  const mongoose = app.mongoose;
+
+  return mongoose.model('User', UserSchema);
+};

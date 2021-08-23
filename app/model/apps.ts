@@ -1,7 +1,7 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import baseModel from './base_model';
 
-export interface Application {
+export interface App {
   name: string;
   pid: Types.ObjectId;
   create_at: Date;
@@ -10,7 +10,7 @@ export interface Application {
 }
 
 /** 项目表 一个项目 -> 多个配置项 */
-const AppSchema = new Schema<Application>({
+const AppSchema = new Schema<App>({
   name: String,
   pid: Types.ObjectId, // 微前端 会有父app
   create_at: { type: Date, default: Date.now() },
@@ -28,4 +28,8 @@ AppSchema.pre('save', function (next) {
   next();
 });
 
-export default model('Apps', AppSchema);
+export default (app) => {
+  const mongoose = app.mongoose;
+
+  return mongoose.model('Apps', AppSchema);
+};

@@ -17,8 +17,10 @@ export default (appInfo: EggAppInfo) => {
 
   // mongodb
   config.mongoose = {
-    url: 'mongodb://127.0.0.1:27017',
-    options: {},
+    url: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017',
+    options: {
+      poolSize: 40,
+    },
   };
 
   // the return config will combines to EggAppConfig
