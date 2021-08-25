@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import baseModel from './base_model';
+import baseModel from '../common/db_module';
 
 export interface User {
   name: string;

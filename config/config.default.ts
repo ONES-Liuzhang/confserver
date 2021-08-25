@@ -17,10 +17,22 @@ export default (appInfo: EggAppInfo) => {
 
   // mongodb
   config.mongoose = {
-    url: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017',
+    url: process.env.MONGO_URL || 'mongodb://root:123456@127.0.0.1:27017',
     options: {
       poolSize: 40,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
     },
+  };
+
+  // 开发环境关闭csrf
+  config.security = {
+    csrf: {
+      enable: false,
+      igonreJSON: true,
+    },
+    domainWhiteList: ['*'],
   };
 
   // the return config will combines to EggAppConfig

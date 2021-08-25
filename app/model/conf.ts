@@ -1,9 +1,9 @@
-import { Schema, Types } from 'mongoose';
-import baseModel from './base_model';
+import { Schema } from 'mongoose';
+import baseModel from '../common/db_module';
 
 /** 环境配置项表 */
 export interface Configuration {
-  app_id: Types.ObjectId;
+  app_id: string;
   name: string;
   ip_address: string;
   domain_name: string;
@@ -13,7 +13,7 @@ export interface Configuration {
 }
 
 const ConfigSchema = new Schema<Configuration>({
-  app_id: Types.ObjectId,
+  app_id: String,
   name: String,
   create_at: { type: Date, default: Date.now() },
   update_at: { type: Date, default: Date.now() },

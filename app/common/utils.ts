@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-moment.locale('zh-cn');
-
 /**
  * 格式化日期
  * @param date 要格式化的日期
