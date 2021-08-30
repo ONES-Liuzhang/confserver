@@ -22,8 +22,7 @@ export default class AppsService extends Service {
       })
       return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e)
-      return
+      throw new Error(e)
     }
   }
 
@@ -32,34 +31,17 @@ export default class AppsService extends Service {
    * @param name 名称
    * @return
    */
-  public async findAppByName(name: string) {
+  public async findOneApp(filterInfo) {
     try {
+      const filter = {}
+      for (const k in filterInfo) {
+        if (filterInfo[k]) filter[k] = filterInfo[k]
+      }
       const { ctx } = this
-      const result = await ctx.model.Apps.findOne({
-        name,
-      })
+      const result = await ctx.model.Apps.findOne(filter)
       return result
     } catch (e) {
-      console.log('[SERVICE ERROR] findAppByName', e)
-      return
-    }
-  }
-
-  /**
-   *
-   * @param appId appid
-   * @return
-   */
-  public async findAppByAppId(appId: string) {
-    try {
-      const { ctx } = this
-      const result = await ctx.model.Apps.findOne({
-        app_id: appId,
-      })
-      return result
-    } catch (e) {
-      console.log('[SERVICE ERROR] findAppByName', e)
-      return
+      throw new Error(e)
     }
   }
 
@@ -72,11 +54,11 @@ export default class AppsService extends Service {
    */
   public async editAppInfo(appInfo) {
     try {
-      const { name, remark, app_id } = appInfo
+      const { name, remark, app_id, id } = appInfo
       const { ctx } = this
-      const result = await ctx.model.Apps.update(
+      const result = await ctx.model.Apps.updateOne(
         {
-          app_id,
+          _id: id,
         },
         {
           name,
@@ -86,8 +68,7 @@ export default class AppsService extends Service {
       )
       return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e)
-      return
+      throw new Error(e)
     }
   }
 
@@ -95,7 +76,7 @@ export default class AppsService extends Service {
    *  删除项目信息
    *  app_id - appid
    */
-  public async delApp(app_id) {
+  public async delAppByAppId(app_id) {
     try {
       const { ctx } = this
       const result = await ctx.model.Apps.deleteOne({
@@ -103,8 +84,20 @@ export default class AppsService extends Service {
       })
       return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e)
-      return
+      throw new Error(e)
+    }
+  }
+
+  public async list(page, limit) {
+    try {
+      const { ctx } = this
+      const result = await ctx.model.Apps.find()
+        .skip(page * limit)
+        .limit(limit)
+        .sort({ _id: -1 })
+      return result
+    } catch (e) {
+      throw new Error(e)
     }
   }
 }
