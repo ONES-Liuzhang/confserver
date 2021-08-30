@@ -26,13 +26,21 @@ export default (appInfo: EggAppInfo) => {
     },
   }
 
-  // 开发环境关闭csrf
-  config.security = {
-    csrf: {
-      enable: false,
-      igonreJSON: true,
+  config.cors = {
+    origin: '*',
+    credentials: true,
+    allowMethods: 'GET,POST,PUT,DELETE,PATCH,PUT,HEAD',
+  }
+
+  config.swaggerdoc = {
+    dirScanner: './app/controller',
+    apiInfo: {
+      title: '项目配置接口文档',
+      description: '获取各个项目的环境配置',
+      version: '1.0.0',
     },
-    domainWhiteList: ['*'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
   }
 
   // the return config will combines to EggAppConfig

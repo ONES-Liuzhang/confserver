@@ -15,8 +15,8 @@ export default (options) => {
       ctx.status = status
       ctx.body = {
         code: 'ZC999',
-        msg: '系统错误',
-        data: error,
+        msg: error,
+        data: null,
       }
     }
   }
