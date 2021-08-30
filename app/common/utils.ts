@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment'
 
 /**
  * 格式化日期
@@ -7,16 +7,16 @@ import moment from 'moment';
  * @return 格式化的日期
  */
 export const formatDate = (date, friendly = false) => {
-  date = moment(date);
+  date = moment(date)
   if (friendly) {
-    return date.fromNow();
+    return date.fromNow()
   }
-  return date.format('YYYY-MM-DD HH:mm');
-};
+  return date.format('YYYY-MM-DD HH:mm')
+}
 
 /**
  * 验证id是否规范
  */
 export const validateId = (id: string) => {
-  return /^[a-zA-Z0-9-_]+$/i.test(id);
-};
+  return /^[a-zA-Z0-9-_]+$/i.test(id)
+}

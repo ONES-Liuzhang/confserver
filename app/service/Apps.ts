@@ -1,4 +1,4 @@
-import { Service } from 'egg';
+import { Service } from 'egg'
 
 /**
  * Apps Service
@@ -13,17 +13,17 @@ export default class AppsService extends Service {
    */
   public async addNewApp({ name, remark, pid, app_id }) {
     try {
-      const { ctx } = this;
+      const { ctx } = this
       const result = await ctx.model.Apps.create({
         name,
         remark,
         pid,
         app_id,
-      });
-      return result;
+      })
+      return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e);
-      return;
+      console.log('[SERVICE ERROR] addNewApp', e)
+      return
     }
   }
 
@@ -34,14 +34,14 @@ export default class AppsService extends Service {
    */
   public async findAppByName(name: string) {
     try {
-      const { ctx } = this;
+      const { ctx } = this
       const result = await ctx.model.Apps.findOne({
         name,
-      });
-      return result;
+      })
+      return result
     } catch (e) {
-      console.log('[SERVICE ERROR] findAppByName', e);
-      return;
+      console.log('[SERVICE ERROR] findAppByName', e)
+      return
     }
   }
 
@@ -52,14 +52,14 @@ export default class AppsService extends Service {
    */
   public async findAppByAppId(appId: string) {
     try {
-      const { ctx } = this;
+      const { ctx } = this
       const result = await ctx.model.Apps.findOne({
         app_id: appId,
-      });
-      return result;
+      })
+      return result
     } catch (e) {
-      console.log('[SERVICE ERROR] findAppByName', e);
-      return;
+      console.log('[SERVICE ERROR] findAppByName', e)
+      return
     }
   }
 
@@ -72,8 +72,8 @@ export default class AppsService extends Service {
    */
   public async editAppInfo(appInfo) {
     try {
-      const { name, remark, app_id } = appInfo;
-      const { ctx } = this;
+      const { name, remark, app_id } = appInfo
+      const { ctx } = this
       const result = await ctx.model.Apps.update(
         {
           app_id,
@@ -82,12 +82,12 @@ export default class AppsService extends Service {
           name,
           remark,
           app_id,
-        },
-      );
-      return result;
+        }
+      )
+      return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e);
-      return;
+      console.log('[SERVICE ERROR] addNewApp', e)
+      return
     }
   }
 
@@ -97,14 +97,14 @@ export default class AppsService extends Service {
    */
   public async delApp(app_id) {
     try {
-      const { ctx } = this;
+      const { ctx } = this
       const result = await ctx.model.Apps.deleteOne({
         app_id,
-      });
-      return result;
+      })
+      return result
     } catch (e) {
-      console.log('[SERVICE ERROR] addNewApp', e);
-      return;
+      console.log('[SERVICE ERROR] addNewApp', e)
+      return
     }
   }
 }

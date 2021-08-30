@@ -1,10 +1,10 @@
-import { EggPlugin } from 'egg';
+import { EggPlugin } from 'egg'
 
 const plugin: EggPlugin = {
   mongoose: {
     enable: true,
     package: 'egg-mongoose',
   },
-};
+}
 
-export default plugin;
+export default plugin

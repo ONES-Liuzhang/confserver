@@ -1,4 +1,4 @@
-import { Service } from 'egg';
+import { Service } from 'egg'
 
 /**
  * Config Service
@@ -9,6 +9,6 @@ export default class ConfigService extends Service {
    * @param name - your name
    */
   public async addConfig(name: string) {
-    return `hi, ${name}`;
+    return `hi, ${name}`
   }
 }
