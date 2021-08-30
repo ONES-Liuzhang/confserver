@@ -28,17 +28,29 @@ export default class AppsService extends Service {
 
   /**
    *
-   * @param name 名称
+   * @param filter 精确的查询条件
    * @return
    */
-  public async findOneApp(filterInfo) {
+  public async findOneApp(filter) {
     try {
-      const filter = {}
-      for (const k in filterInfo) {
-        if (filterInfo[k]) filter[k] = filterInfo[k]
-      }
       const { ctx } = this
       const result = await ctx.model.Apps.findOne(filter)
+      return result
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
+  /**
+   * 或查询 排除项目_id = id的项
+   * @param filters 或查询
+   */
+  public async findOneAppByOr(filters) {
+    try {
+      const { ctx } = this
+      const result = await ctx.model.Apps.findOne({
+        $or: filters,
+      })
       return result
     } catch (e) {
       throw new Error(e)

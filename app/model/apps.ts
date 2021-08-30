@@ -2,7 +2,7 @@ import { Application } from 'egg'
 import { Schema } from 'mongoose'
 import baseModel from '../common/db_module'
 
-export interface App {
+export interface AppInfo {
   app_id: string
   name: string
   pid: number
@@ -12,7 +12,7 @@ export interface App {
 }
 
 /** 项目表 一个项目 -> 多个配置项 */
-const AppSchema = new Schema<App>({
+const AppSchema = new Schema<AppInfo>({
   // id: { type: Number, default: 0 },
   app_id: { type: String, unique: true },
   name: String,

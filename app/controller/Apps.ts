@@ -1,9 +1,17 @@
+import { AppInfo } from './../model/apps'
 import { Controller } from 'egg'
 import { v4 as uuidv4 } from 'uuid'
 
 export default class AppsController extends Controller {
   /**
-   * 添加项目
+   * @router post /api/app/add
+   * @summary 添加项目
+   * @description 添加项目
+   * @request query string *name 项目名称
+   * @request query string app_id appid
+   * @request query string remark 备注
+   * @request query string pid 父项目_id
+   * @response 200 indexJsonBody
    */
   public async addNewApp() {
     const { ctx } = this
@@ -47,6 +55,13 @@ export default class AppsController extends Controller {
     }
   }
 
+  /**
+   * @router post /api/app/del
+   * @summary 删除项目
+   * @description 删除项目
+   * @request query string *app_id appid
+   * @response 200 indexJsonBody
+   */
   public async delApp() {
     const { ctx } = this
     const { app_id } = ctx.request.body
@@ -68,9 +83,20 @@ export default class AppsController extends Controller {
     }
   }
 
+  /**
+   * @router post /api/app/edit
+   * @summary 修改项目
+   * @description 修改项目
+   * @request query string *id 项目id
+   * @request query string *name 项目名称
+   * @request query string app_id appid
+   * @request query string remark 备注
+   * @request query string pid 父项目_id
+   * @response 200 indexJsonBody
+   */
   public async editApp() {
     const { ctx } = this
-    const { name, remark = '', app_id = '', id } = ctx.request.body
+    const { name, remark = '', app_id, id } = ctx.request.body
 
     if (!id) {
       ctx.body = {
@@ -79,6 +105,47 @@ export default class AppsController extends Controller {
         data: null,
       }
       return
+    }
+
+    if (!name) {
+      ctx.body = {
+        code: 'ZC001',
+        msg: '请传入项目名称',
+        data: null,
+      }
+      return
+    }
+
+    const appInfo = await ctx.service.apps.findOneApp({ _id: id })
+    const editInfo: Partial<AppInfo> = {}
+    const { name: iName, app_id: appId } = appInfo
+
+    // name和app_id有修改才传
+    if (iName !== name) editInfo.name = name
+    if (appId !== app_id) editInfo.app_id = app_id
+
+    const checkInfo = await ctx.service.apps.findOneAppByOr([
+      { name: editInfo.name },
+      { app_id: editInfo.app_id },
+    ])
+
+    if (checkInfo) {
+      if (checkInfo.app_id) {
+        ctx.body = {
+          code: 'ZC002',
+          msg: 'app_id已存在',
+          data: null,
+        }
+        return
+      }
+      if (checkInfo.name) {
+        ctx.body = {
+          code: 'ZC002',
+          msg: '项目名称已存在',
+          data: null,
+        }
+        return
+      }
     }
 
     const result = await ctx.service.apps.editAppInfo({
