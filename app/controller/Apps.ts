@@ -2,15 +2,15 @@ import { AppInfo } from './../model/apps'
 import { Controller } from 'egg'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * @controller Apps 项目相关
+ */
 export default class AppsController extends Controller {
   /**
    * @router post /api/app/add
    * @summary 添加项目
    * @description 添加项目
-   * @request query string *name 项目名称
-   * @request query string app_id appid
-   * @request query string remark 备注
-   * @request query string pid 父项目_id
+   * @request body AddAppJsonInfo 项目信息
    * @response 200 indexJsonBody
    */
   public async addNewApp() {
@@ -59,7 +59,7 @@ export default class AppsController extends Controller {
    * @router post /api/app/del
    * @summary 删除项目
    * @description 删除项目
-   * @request query string *app_id appid
+   * @request body DelAppJsonInfo appid
    * @response 200 indexJsonBody
    */
   public async delApp() {
@@ -87,11 +87,7 @@ export default class AppsController extends Controller {
    * @router post /api/app/edit
    * @summary 修改项目
    * @description 修改项目
-   * @request query string *id 项目id
-   * @request query string *name 项目名称
-   * @request query string app_id appid
-   * @request query string remark 备注
-   * @request query string pid 父项目_id
+   * @request body EditAppJsonInfo 项目信息
    * @response 200 indexJsonBody
    */
   public async editApp() {
@@ -107,22 +103,13 @@ export default class AppsController extends Controller {
       return
     }
 
-    if (!name) {
-      ctx.body = {
-        code: 'ZC001',
-        msg: '请传入项目名称',
-        data: null,
-      }
-      return
-    }
-
     const appInfo = await ctx.service.apps.findOneApp({ _id: id })
     const editInfo: Partial<AppInfo> = {}
     const { name: iName, app_id: appId } = appInfo
 
     // name和app_id有修改才传
-    if (iName !== name) editInfo.name = name
-    if (appId !== app_id) editInfo.app_id = app_id
+    if (name && iName !== name) editInfo.name = name
+    if (app_id && appId !== app_id) editInfo.app_id = app_id
 
     const checkInfo = await ctx.service.apps.findOneAppByOr([
       { name: editInfo.name },
@@ -149,9 +136,8 @@ export default class AppsController extends Controller {
     }
 
     const result = await ctx.service.apps.editAppInfo({
-      name,
+      ...editInfo,
       remark,
-      app_id,
       id,
     })
     if (result.ok) {
@@ -169,7 +155,13 @@ export default class AppsController extends Controller {
     }
   }
 
-  /** 查询app列表 */
+  /**
+   * @router post /api/app/list
+   * @summary 查询列表
+   * @description 删除项目
+   * @request body ListJsonInfo 页码信息
+   * @response 200 indexJsonBody
+   */
   public async list() {
     const { ctx } = this
     const { page = 1, limit = 10 } = ctx.request.body
@@ -181,6 +173,7 @@ export default class AppsController extends Controller {
     }
   }
 
+  // TODO: 搜索 可以使用list 该api考虑删除 暂时不加入router
   public async searchApp() {
     const { ctx } = this
     const { name, app_id, id } = ctx.request.body

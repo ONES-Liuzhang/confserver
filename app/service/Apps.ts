@@ -66,17 +66,13 @@ export default class AppsService extends Service {
    */
   public async editAppInfo(appInfo) {
     try {
-      const { name, remark, app_id, id } = appInfo
+      const { id, ...rest } = appInfo
       const { ctx } = this
       const result = await ctx.model.Apps.updateOne(
         {
           _id: id,
         },
-        {
-          name,
-          remark,
-          app_id,
-        }
+        rest
       )
       return result
     } catch (e) {

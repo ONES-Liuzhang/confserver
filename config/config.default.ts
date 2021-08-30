@@ -33,14 +33,20 @@ export default (appInfo: EggAppInfo) => {
   }
 
   config.swaggerdoc = {
-    dirScanner: './app/controller',
+    dirScanner: './app/controller', // 配置自动扫描的控制器路径
     apiInfo: {
       title: '项目配置接口文档',
       description: '获取各个项目的环境配置',
       version: '1.0.0',
+      contact: {
+        email: '18670319384@163.com', // 联系方式
+      },
     },
+    basePath: '/', // 配置基础路径
+    schemes: ['http', 'https'], // 配置支持的协议
     consumes: ['application/json'],
     produces: ['application/json'],
+    enableSecurity: false, // 是否启用授权，默认 false
   }
 
   // the return config will combines to EggAppConfig

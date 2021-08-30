@@ -1,8 +1,15 @@
 import { Controller } from 'egg'
 
+/**
+ * @controller Confs 环境配置相关
+ */
 export default class ConfigController extends Controller {
   /**
-   * 增加一项配置
+   * @router post /api/conf/add
+   * @summary 添加配置项
+   * @description 添加配置项
+   * @request body AddConfJsonInfo 配置项信息
+   * @response 200 indexJsonBody
    */
   public async addConf() {
     const { ctx } = this
@@ -70,6 +77,13 @@ export default class ConfigController extends Controller {
     }
   }
 
+  /**
+   * @router post /api/conf/edit
+   * @summary 修改配置项
+   * @description 修改配置项
+   * @request body EditConfJsonInfo 配置项信息
+   * @response 200 indexJsonBody
+   */
   public async editConf() {
     const { ctx } = this
     const {
@@ -80,7 +94,15 @@ export default class ConfigController extends Controller {
       remark = '',
       id,
     } = ctx.request.body
-    if (!id || !app || !env_name) {
+    if (!id) {
+      ctx.body = {
+        code: 'ZC001',
+        msg: '请传入配置项id',
+        data: null,
+      }
+      return
+    }
+    if (!app || !env_name) {
       ctx.body = {
         code: 'ZC001',
         msg: '传参错误，请检查入参',
@@ -116,7 +138,13 @@ export default class ConfigController extends Controller {
     }
   }
 
-  /** 获取app下的config */
+  /**
+   * @router post /api/conf/list
+   * @summary 获取app下的配置项
+   * @description 获取app下的配置项
+   * @request body SearchConfJsonInfo 配置项信息
+   * @response 200 indexJsonBody
+   */
   public async getConfListByApp() {
     const { ctx } = this
     const { app } = ctx.request.body
@@ -149,8 +177,11 @@ export default class ConfigController extends Controller {
   }
 
   /**
-   * 删除配置项
-   * @return
+   * @router post /api/conf/del
+   * @summary 删除配置项
+   * @description 删除配置项
+   * @request body DelConfJsonInfo 配置项id
+   * @response 200 indexJsonBody
    */
   public async delConf() {
     const { ctx } = this
