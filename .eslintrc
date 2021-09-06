@@ -2,5 +2,12 @@
   "extends": ["eslint-config-egg/typescript", "plugin:prettier/recommended"],
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "rules": {
+    "jsdoc/check-tag-names": 0,
+    "jsdoc/check-param-names": 0,
+    "jsdoc/require-returns-type": 0,
+    "jsdoc/require-returns-description": 0,
+    "jsdoc/require-param-description": 0
   }
 }
