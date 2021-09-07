@@ -16,6 +16,5 @@ COPY --from=build /server/config config
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install --frozen-lockfile --production
-ENV MONGO_URL "mongodb://127.0.0.1:27017"
 EXPOSE 7001
-# CMD ["yarn", "run", "start"]
+CMD ["yarn", "run", "start"]

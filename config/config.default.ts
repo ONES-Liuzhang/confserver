@@ -32,6 +32,15 @@ export default (appInfo: EggAppInfo) => {
     allowMethods: 'GET,POST,PUT,DELETE,PATCH,PUT,HEAD',
   }
 
+  /** 暂时关闭csrf */
+  config.security = {
+    csrf: {
+      enable: false,
+      igonreJSON: true,
+    },
+    domainWhiteList: ['*'],
+  }
+
   config.swaggerdoc = {
     dirScanner: './app/controller', // 配置自动扫描的控制器路径
     apiInfo: {
@@ -47,6 +56,14 @@ export default (appInfo: EggAppInfo) => {
     consumes: ['application/json'],
     produces: ['application/json'],
     enableSecurity: false, // 是否启用授权，默认 false
+  }
+
+  config.cluster = {
+    listen: {
+      path: '',
+      port: 7001,
+      hostname: '0.0.0.0',
+    },
   }
 
   // the return config will combines to EggAppConfig
