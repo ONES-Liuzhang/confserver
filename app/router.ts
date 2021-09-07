@@ -3,7 +3,6 @@ import { Application } from 'egg'
 export default (app: Application) => {
   const { controller, router } = app
 
-  router.get('/ll', controller.home.index)
   router.post('/api/app/add', controller.apps.addNewApp)
   router.post('/api/app/del', controller.apps.delApp)
   router.post('/api/app/edit', controller.apps.editApp)
